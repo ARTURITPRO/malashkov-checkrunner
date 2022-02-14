@@ -6,6 +6,7 @@ import edu.clevertec.check.exception.InvalidCardNumberException;
 import edu.clevertec.check.exception.InvalidCardTypeException;
 import edu.clevertec.check.exception.NoSuchProductException;
 import edu.clevertec.check.exception.OrderAreNotCreatedException;
+import edu.clevertec.check.service.ProductService;
 import edu.clevertec.check.service.SupermarketService;
 import edu.clevertec.check.util.FileOutput;
 import edu.clevertec.check.util.FileUpLoad;
@@ -16,19 +17,18 @@ import java.util.*;
 
 public class SupermarketServiceImpl implements SupermarketService {
 
+    private final ProductService<Integer, Product> productService = new ProductServiceImpl();
+
     private final String name;
     private final String phoneNumber;
-    private Set<Product> assortmentSet;
     private Map<Product, Integer> orderMap;
     private DiscountCard card;
     private StringBuilder ReceiptInfoReceivedFromOrder;
     private double totalCost;
 
-    public SupermarketServiceImpl(String name, String phoneNumber, Set<Product> assortmentSet) {
-
+    public SupermarketServiceImpl(String name, String phoneNumber) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.assortmentSet = assortmentSet;
         totalCost = 0;
     }
 
@@ -164,10 +164,21 @@ public class SupermarketServiceImpl implements SupermarketService {
     }
 
     private Product findProductInAssortmentById(int id) throws NoSuchProductException {
-        return Optional.of(assortmentSet.stream()
-                .filter(e -> e.getId() == id).findAny()
-                .orElseThrow(() -> new NoSuchProductException())).get();
+        return Optional.of(productService.findById(id)
+                .orElseThrow(() -> new NoSuchProductException()))
+                .get();
     }
+//
+//    private Product findProductInAssortmentById(int id) throws NoSuchProductException {
+//
+//        return Optional.of(productService.findAll()
+//                .stream()
+//                .filter(e -> e.getId() == id)
+//                .findAny()
+//                .orElseThrow(() -> new NoSuchProductException()))
+//                .get();
+//
+//    }
 
     public void printCheckToConsole() {
         FileOutput.printReceiptToConsole(this, ReceiptInfoReceivedFromOrder);
@@ -182,7 +193,6 @@ public class SupermarketServiceImpl implements SupermarketService {
         return "SupermarketServiceImpl{" +
                 "name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", assortmentSet=" + assortmentSet +
                 '}';
     }
 
@@ -193,12 +203,11 @@ public class SupermarketServiceImpl implements SupermarketService {
         SupermarketServiceImpl that = (SupermarketServiceImpl) o;
         return
                 Objects.equals(name, that.name) &&
-                        Objects.equals(phoneNumber, that.phoneNumber) &&
-                        Objects.equals(assortmentSet, that.assortmentSet);
+                        Objects.equals(phoneNumber, that.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, phoneNumber, assortmentSet, orderMap, card, ReceiptInfoReceivedFromOrder, totalCost);
+        return Objects.hash(name, phoneNumber, orderMap, card, ReceiptInfoReceivedFromOrder, totalCost);
     }
 }

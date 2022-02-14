@@ -2,7 +2,7 @@ package edu.clevertec.check.dto;
 
 import java.util.Objects;
 
-public abstract class Product implements Comparable<Product> {
+public abstract class Product implements Entity, Comparable<Product> {
 
     private final int id;
     private final String name;
@@ -16,7 +16,8 @@ public abstract class Product implements Comparable<Product> {
         this.isPromotional = isPromotional;
     }
 
-    public int getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 
