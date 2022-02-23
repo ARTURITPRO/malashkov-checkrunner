@@ -100,17 +100,15 @@ public class CashReceiptPdfFilePrinter implements CashReceiptPrinter {
     private static Table getResultTable(SupermarketServiceImpl check) {
         Table totalPurchase = new Table(UnitValue.createPercentArray(2)).useAllAvailableWidth();
 
-        Cell totalDiscount = new Cell(2, 2).
-                add(new Paragraph("Have a nice day !"));
-        Cell cart = new Cell(1, 1).add(new Paragraph("Phone number: " + check.getPhoneNumber()));
-        Cell discount = new Cell(1, 1).add(new Paragraph("Supermarket: " + check.getName() + "%"));
-        Cell totalPrice = new Cell(1, 1).add(new Paragraph("Total price: " + CashReceiptPdfFilePrinter.
+        Cell niceDay = new Cell(1, 1).add(new Paragraph("Have a nice day !"));
+        Cell phoneNumber = new Cell(1, 1).add(new Paragraph("Phone number: " + check.getPhoneNumber()));
+                Cell totalPrice = new Cell(2, 2).add(new Paragraph("Total price: " + CashReceiptPdfFilePrinter.
                 CutDouble(check.getTotalCost())));
 
-        totalPurchase.addCell(totalDiscount);
-        totalPurchase.addCell(cart);
-        totalPurchase.addCell(discount);
         totalPurchase.addCell(totalPrice);
+        totalPurchase.addCell(phoneNumber);
+        totalPurchase.addCell(niceDay);
+
 
         return totalPurchase.setTextAlignment(TextAlignment.CENTER);
     }
