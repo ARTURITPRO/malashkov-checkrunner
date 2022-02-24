@@ -1,5 +1,10 @@
 package edu.clevertec.check.service.impl;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import edu.clevertec.check.dto.Product;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import edu.clevertec.check.dto.Fish;
 import edu.clevertec.check.dto.Meat;
 import edu.clevertec.check.dto.Product;

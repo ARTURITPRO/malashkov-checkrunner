@@ -1,4 +1,4 @@
-package edu.clevertec.check.util;
+package edu.clevertec.check.pdf;
 
 import edu.clevertec.check.service.impl.SupermarketServiceImpl;
 

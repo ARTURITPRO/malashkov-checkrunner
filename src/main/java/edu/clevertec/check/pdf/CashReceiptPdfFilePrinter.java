@@ -1,4 +1,4 @@
-package edu.clevertec.check.util;
+package edu.clevertec.check.pdf;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfReader;
@@ -61,13 +61,13 @@ public class CashReceiptPdfFilePrinter implements CashReceiptPrinter {
                 .setFontSize(16f);
 
         Cell cashReceipt = new Cell(1, 5).add(new Paragraph("Storage \"Dionis17\" "));
-        Cell qty = new Cell(1, 1).add(new Paragraph("QTY"));
+        Cell quentity = new Cell(1, 1).add(new Paragraph("QTY"));
         Cell description = new Cell(1, 1).add(new Paragraph("DESCRIPTION"));
         Cell price = new Cell(1, 1).add(new Paragraph("PRICE"));
         Cell total = new Cell(1, 1).add(new Paragraph("TOTAL"));
 
         table.addCell(cashReceipt);
-        table.addCell(qty);
+        table.addCell(quentity);
         table.addCell(description);
         table.addCell(price);
 
@@ -85,7 +85,7 @@ public class CashReceiptPdfFilePrinter implements CashReceiptPrinter {
             Cell description = new Cell(1, 1).add(new Paragraph(String.valueOf(product.getKey().getName())));
             Cell price = new Cell(1, 1).add(new Paragraph(String.valueOf(product.getKey().getCost())));
             Cell total = new Cell(1, 1).add(new Paragraph(String.valueOf(CashReceiptPdfFilePrinter.
-                    CutDouble((product.getKey().getCost()) * (product.getValue())))));
+                    cutDouble((product.getKey().getCost()) * (product.getValue())))));
 
             tableProducts.addCell(qty);
             tableProducts.addCell(description);
@@ -103,7 +103,7 @@ public class CashReceiptPdfFilePrinter implements CashReceiptPrinter {
         Cell niceDay = new Cell(1, 1).add(new Paragraph("Have a nice day !"));
         Cell phoneNumber = new Cell(1, 1).add(new Paragraph("Phone number: " + check.getPhoneNumber()));
         Cell totalPrice = new Cell(2, 2).add(new Paragraph("Total price: " + CashReceiptPdfFilePrinter.
-                CutDouble(check.getTotalCost())));
+                cutDouble(check.getTotalCost())));
 
         totalPurchase.addCell(totalPrice);
         totalPurchase.addCell(phoneNumber);
@@ -112,8 +112,7 @@ public class CashReceiptPdfFilePrinter implements CashReceiptPrinter {
         return totalPurchase.setTextAlignment(TextAlignment.CENTER);
     }
 
-    private static double CutDouble(double d) {
-        double value = d;
+    private static double cutDouble(double value) {
         MathContext mathContext = new MathContext(15, RoundingMode.HALF_UP);
         BigDecimal bigDecimal = new BigDecimal(value, mathContext);
         bigDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_DOWN);

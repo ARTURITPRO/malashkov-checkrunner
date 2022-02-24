@@ -14,7 +14,7 @@ class JsParserTest {
 
 
     @BeforeEach
-    void set() {
+    void setUP() {
         objectMapper = new ObjectMapper();
         jsonParser = new JsParser();
         product = new Product(1, "Fish", 4, true);
