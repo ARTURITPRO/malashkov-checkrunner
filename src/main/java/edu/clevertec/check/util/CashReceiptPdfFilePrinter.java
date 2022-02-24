@@ -102,20 +102,19 @@ public class CashReceiptPdfFilePrinter implements CashReceiptPrinter {
 
         Cell niceDay = new Cell(1, 1).add(new Paragraph("Have a nice day !"));
         Cell phoneNumber = new Cell(1, 1).add(new Paragraph("Phone number: " + check.getPhoneNumber()));
-                Cell totalPrice = new Cell(2, 2).add(new Paragraph("Total price: " + CashReceiptPdfFilePrinter.
+        Cell totalPrice = new Cell(2, 2).add(new Paragraph("Total price: " + CashReceiptPdfFilePrinter.
                 CutDouble(check.getTotalCost())));
 
         totalPurchase.addCell(totalPrice);
         totalPurchase.addCell(phoneNumber);
         totalPurchase.addCell(niceDay);
 
-
         return totalPurchase.setTextAlignment(TextAlignment.CENTER);
     }
 
     private static double CutDouble(double d) {
         double value = d;
-        MathContext mathContext = new MathContext(15, RoundingMode.HALF_UP); // для double
+        MathContext mathContext = new MathContext(15, RoundingMode.HALF_UP);
         BigDecimal bigDecimal = new BigDecimal(value, mathContext);
         bigDecimal = bigDecimal.setScale(2, BigDecimal.ROUND_DOWN);
         value = bigDecimal.doubleValue();
