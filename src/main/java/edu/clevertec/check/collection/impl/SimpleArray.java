@@ -15,7 +15,7 @@ import java.util.function.UnaryOperator;
  * @param <T> the type of elements in this list
  * @author Artur Malashkou
  * @see List
- * @see LinkedList
+ * @see ArrayList
  * @see Lock
  * @since 1.8
  */
@@ -192,8 +192,9 @@ public class SimpleArray<T> implements List<T> {
     public T set(int index, T element) {
         try {
             resolReading.lock();
+            T oldValue = elementData(index);
             values[index] = element;
-            return (T) values;
+            return (T) oldValue;
         } finally {
             resolReading.unlock();
         }
@@ -234,6 +235,7 @@ public class SimpleArray<T> implements List<T> {
     public T remove(int index) {
         try {
             resolReading.lock();
+            T oldValue = elementData(index);
             T[] temp = values;
             values = (T[]) new Object[temp.length - 1];
             System.arraycopy(temp, 0, values, 0, index);
@@ -308,5 +310,8 @@ public class SimpleArray<T> implements List<T> {
             }
         }
 
+    }
+    T elementData(int index) {
+        return (T) values [index];
     }
 }

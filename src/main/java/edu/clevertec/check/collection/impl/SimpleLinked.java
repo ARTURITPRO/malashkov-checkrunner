@@ -138,10 +138,10 @@ public class SimpleLinked<T> implements List<T>, DescendingIterator<T> {
      *
      * @return the first node in the list
      */
-    public Node<T> getFirstElement() {
+    public T  getFirstElement() {
         try {
             resolReading.lock();
-            return fstNode;
+            return fstNode.nextElement.currentElement;
         } finally {
             resolReading.unlock();
         }
@@ -152,10 +152,10 @@ public class SimpleLinked<T> implements List<T>, DescendingIterator<T> {
      *
      * @return the last node in the list
      */
-    public Node<T> getLastElement() {
+    public T getLastElement() {
         try {
             resolReading.lock();
-            return lstNode;
+            return lstNode.prevElement.currentElement;
         } finally {
             resolReading.unlock();
         }
@@ -436,6 +436,7 @@ public class SimpleLinked<T> implements List<T>, DescendingIterator<T> {
     public T set(int index, T e) {
         try {
             resolReading.lock();
+
             isCorrectIndex(index);
             getNode(index).currentElement = e;
             return e;

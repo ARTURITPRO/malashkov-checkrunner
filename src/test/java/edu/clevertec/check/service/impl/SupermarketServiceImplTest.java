@@ -1,10 +1,10 @@
 package edu.clevertec.check.service.impl;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
-import edu.clevertec.check.dto.Product;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.clevertec.check.dto.Product;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import edu.clevertec.check.dto.Fish;
 import edu.clevertec.check.dto.Meat;
 import edu.clevertec.check.dto.Product;
@@ -15,6 +15,8 @@ import edu.clevertec.check.service.SupermarketService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +24,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class SupermarketServiceImplTest {
+
 
     private SupermarketService dionis17;
 
@@ -37,11 +40,12 @@ public class SupermarketServiceImplTest {
                 "+375(29)937-99-92");
     }
 
-    @Test
-    public void whenPassedInvalidIdOfProduct() {
-        System.out.println("!!!");
-    }
-
+//    @Test
+//    public void whenPassedInvalidIdOfProduct() throws Exception {
+//        thrownEx.expect(NoSuchProductException.class);
+//        dionis17.addOrder(new String[]{"9-1"});
+//    }
+//
 //    @Test
 //    public void whenPassedCardNumberWithInvalidLength() {
 //        Assertions.assertThrows(NoSuchProductException.class, () -> {
