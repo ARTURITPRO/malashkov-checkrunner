@@ -1,8 +1,16 @@
+#To implement the LFU cache
 cache.size: 5
 cache.algorithm: LFU
-
 print.output.type: console
 print.base.url: D://check-gradle/receipts/
+
+#To create a PDF file
 print.pdf.background: https://github.com/stebadmitriy/files/raw/main/Clevertec_Template.pdf
 print.pdf.filename.format: receipt-%d-%s-%d.pdf
 print.txt.filename.format: receipt-%d-%s-%d.txt
+
+#To connect to the database
+db.url: jdbc:postgresql://localhost:5432/postgres
+db.username: postgres
+db.password: 0147896325aA
+db.driver: org.postgresql.Driver
