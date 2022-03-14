@@ -1,6 +1,6 @@
 package edu.clevertec.check.jdbc.repository.Impl;
 
-import edu.clevertec.check.entity.DiscountCard;
+import edu.clevertec.check.jdbc.entity.DiscountCard;
 import edu.clevertec.check.jdbc.repository.DiscountCardRepository;
 import edu.clevertec.check.jdbc.util.JdbcManager;
 import lombok.Cleanup;

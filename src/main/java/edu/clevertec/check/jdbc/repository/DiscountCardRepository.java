@@ -1,7 +1,7 @@
 package edu.clevertec.check.jdbc.repository;
 
 
-import edu.clevertec.check.entity.DiscountCard;
+import edu.clevertec.check.jdbc.entity.DiscountCard;
 
 public interface DiscountCardRepository {
 

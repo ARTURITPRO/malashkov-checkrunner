@@ -1,7 +1,7 @@
 package edu.clevertec.check.jdbc;
 import java.math.BigDecimal;
-import edu.clevertec.check.entity.DiscountCard;
-import edu.clevertec.check.entity.Product;
+import edu.clevertec.check.jdbc.entity.DiscountCard;
+import edu.clevertec.check.jdbc.entity.Product;
 import edu.clevertec.check.jdbc.repository.DiscountCardRepository;
 import edu.clevertec.check.jdbc.repository.Impl.DiscountCardRepositoryImpl;
 import edu.clevertec.check.jdbc.repository.Impl.ProductRepositoryImpl;

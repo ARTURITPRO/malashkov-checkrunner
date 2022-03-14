@@ -1,6 +1,6 @@
 package edu.clevertec.check.jdbc.repository.Impl;
 
-import edu.clevertec.check.entity.Product;
+import edu.clevertec.check.jdbc.entity.Product;
 import edu.clevertec.check.repository.ProductRepository;
 import edu.clevertec.check.jdbc.util.JdbcManager;
 import edu.clevertec.check.service.impl.SupermarketServiceImpl;
