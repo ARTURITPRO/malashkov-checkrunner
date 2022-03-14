@@ -19,19 +19,19 @@ public class Runner {
         Product product = Product.builder().name("Moshroom").price(BigDecimal.valueOf(12)).quantity(22).in_stock(true).build();
 
         productRepository.save(product);
-//        productRepository.findById(28);
-//        product.setQuantity(567);
-//        product.setPrice(BigDecimal.valueOf(87));
-//        productRepository.update(product);
-//        productRepository.delete(product.getId());
-//
-//        DiscountCard discountCard = DiscountCard.builder()
-//                .discount_percentage(15)
-//                .build();
-//        discountCardRepository.save(discountCard);
-//        discountCardRepository.findById(5);
-//        discountCard.setDiscount_percentage(99);
-//        discountCardRepository.update(discountCard);
-//        discountCardRepository.delete(discountCard.getId());
+        productRepository.findById(28);
+        product.setQuantity(567);
+        product.setPrice(BigDecimal.valueOf(87));
+        productRepository.update(product);
+        productRepository.delete(product.getId());
+
+        DiscountCard discountCard = DiscountCard.builder()
+                .discount_percentage(15)
+                .build();
+        discountCardRepository.save(discountCard);
+        discountCardRepository.findById(5);
+        discountCard.setDiscount_percentage(99);
+        discountCardRepository.update(discountCard);
+        discountCardRepository.delete(discountCard.getId());
     }
 }

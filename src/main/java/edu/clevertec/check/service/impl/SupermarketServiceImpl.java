@@ -168,7 +168,7 @@ public class SupermarketServiceImpl implements SupermarketService {
                 .orElseThrow(() -> new NoSuchProductException()))
                 .get();
     }
-//
+
 //    private Product findProductInAssortmentById(int id) throws NoSuchProductException {
 //
 //        return Optional.of(productService.findAll()

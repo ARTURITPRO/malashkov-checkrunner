@@ -47,6 +47,38 @@ public class ProductRepositoryImpl implements ProductRepository {
         log.info("The product is saved in the database: {}", product);
     }
 
+
+//    @Override
+//    @SneakyThrows
+//    public Product findById(int id) {
+//        Connection connection = JdbcManager.get();
+//        return findById(connection, id);
+//    }
+//
+//    @SneakyThrows
+//    private Product findById(Connection connection, int id) {
+//        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(
+//                "SELECT id_product, name, price, cost, promotional " +
+//                        "FROM myProducts " +
+//                        "WHERE id = ?;");
+//
+//        preparedStatement.setObject(1, id);
+//        ResultSet resultSet = preparedStatement.executeQuery();
+//        Product product = null;
+//
+//        if (resultSet.next()) {
+//            product = Product.builder()
+//                    .id(resultSet.getObject("id_product", Integer.class))
+//                    .name(resultSet.getObject("name", String.class))
+//                    .cost(resultSet.getObject("cost", Integer.class))
+//                    .promotional(resultSet.getObject("promotional", Boolean.class))
+//                    .build();
+//            log.info("The entity was found in the database: {}", product);
+//        }
+//        return product;
+//    }
+
+
     @Override
     @SneakyThrows
     public Product save(Product product) {
@@ -77,12 +109,17 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     }
 
+
+
     @Override
     @SneakyThrows
     public Product findById(int id) {
         Connection connection = JdbcManager.get();
         return findById(connection, id);
     }
+
+
+
 
     @SneakyThrows
     private Product findById(Connection connection, int id) {

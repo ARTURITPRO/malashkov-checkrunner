@@ -51,8 +51,7 @@ public class CheckRunner {
                 OrderAreNotCreatedException | IOException e) {
             e.printStackTrace();
         }
-         ProductRepositoryImpl.saveAllProductFromCheck(dionis17);
-         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryImpl();
+
 
     }
 }
