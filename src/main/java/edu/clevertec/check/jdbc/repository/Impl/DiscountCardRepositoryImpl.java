@@ -1,8 +1,8 @@
 package edu.clevertec.check.jdbc.repository.Impl;
 
-import edu.clevertec.check.jdbc.entity.DiscountCard;
+import edu.clevertec.check.entity.DiscountCard;
 import edu.clevertec.check.jdbc.repository.DiscountCardRepository;
-import edu.clevertec.check.jdbc.util.ConnectionManager;
+import edu.clevertec.check.jdbc.util.JdbcManager;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ public class DiscountCardRepositoryImpl implements DiscountCardRepository {
     @Override
     @SneakyThrows
     public DiscountCard save(DiscountCard discountCard) {
-        Connection connection = ConnectionManager.get();
+        Connection connection = JdbcManager.get();
         return save(connection, discountCard);
     }
 
@@ -44,7 +44,7 @@ public class DiscountCardRepositoryImpl implements DiscountCardRepository {
     @Override
     @SneakyThrows
     public DiscountCard findById(int id) {
-        Connection connection = ConnectionManager.get();
+        Connection connection = JdbcManager.get();
         return findById(connection, id);
     }
 
@@ -72,7 +72,7 @@ public class DiscountCardRepositoryImpl implements DiscountCardRepository {
     @Override
     @SneakyThrows
     public boolean delete(int id) {
-        Connection connection = ConnectionManager.get();
+        Connection connection = JdbcManager.get();
         return delete(connection, id);
     }
 
@@ -94,7 +94,7 @@ public class DiscountCardRepositoryImpl implements DiscountCardRepository {
     @Override
     @SneakyThrows
     public DiscountCard update(DiscountCard discountCard) {
-        Connection connection = ConnectionManager.get();
+        Connection connection = JdbcManager.get();
         return update(connection, discountCard);
     }
 

@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 
 @Data
 @UtilityClass
-public class ConnectionManager {
+public class JdbcManager {
 
     private static final String PROPERTIES_FILE = "application.yml";
 

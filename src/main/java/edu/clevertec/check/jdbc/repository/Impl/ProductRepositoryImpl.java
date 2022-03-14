@@ -1,26 +1,56 @@
 package edu.clevertec.check.jdbc.repository.Impl;
 
-import edu.clevertec.check.jdbc.entity.Product;
-import edu.clevertec.check.jdbc.repository.ProductRepository;
-import edu.clevertec.check.jdbc.util.ConnectionManager;
+import edu.clevertec.check.entity.Product;
+import edu.clevertec.check.repository.ProductRepository;
+import edu.clevertec.check.jdbc.util.JdbcManager;
+import edu.clevertec.check.service.impl.SupermarketServiceImpl;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Map;
 
 @Slf4j
 public class ProductRepositoryImpl implements ProductRepository {
 
+    @SneakyThrows
+    public static SupermarketServiceImpl saveAllProductFromCheck(SupermarketServiceImpl check) {
+
+        Map<edu.clevertec.check.dto.Product, Integer> mapProduct = check.getOrderMap();
+
+        for (Map.Entry<edu.clevertec.check.dto.Product, Integer> product : mapProduct.entrySet()) {
+            Connection connection = JdbcManager.get();
+            saveAllProductFromCheckInDatabase(connection, product);
+        }
+        return check;
+    }
+
+    @SneakyThrows
+   public static void saveAllProductFromCheckInDatabase(Connection connection, Map.Entry<edu.clevertec.check.dto.Product, Integer> product){
+
+        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO myProducts (id_product, name, cost, promotional) " +
+                        "VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+
+        preparedStatement.setObject(1, product.getKey().getId());
+        preparedStatement.setObject(2, product.getKey().getName());
+        preparedStatement.setObject(3, product.getKey().getCost());
+        preparedStatement.setObject(4, product.getKey().isPromotional());
+        preparedStatement.executeUpdate();
+        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+        generatedKeys.next();
+       // product.setId(generatedKeys.getObject("id", Integer.class));
+        log.info("The product is saved in the database: {}", product);
+    }
 
     @Override
     @SneakyThrows
     public Product save(Product product) {
-        Connection connection = ConnectionManager.get();
+        Connection connection = JdbcManager.get();
         return save(connection, product);
     }
 
@@ -50,7 +80,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     @SneakyThrows
     public Product findById(int id) {
-        Connection connection = ConnectionManager.get();
+        Connection connection = JdbcManager.get();
         return findById(connection, id);
     }
 
@@ -81,7 +111,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     @SneakyThrows
     public boolean delete(int id) {
-        Connection connection = ConnectionManager.get();
+        Connection connection = JdbcManager.get();
         return delete(connection, id);
     }
 
@@ -106,7 +136,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     @SneakyThrows
     public Product update(Product product) {
-        Connection connection = ConnectionManager.get();
+        Connection connection = JdbcManager.get();
         return update(connection, product);
     }
 

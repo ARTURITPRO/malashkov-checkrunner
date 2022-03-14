@@ -7,6 +7,9 @@ import edu.clevertec.check.dto.Sweets;
 import edu.clevertec.check.repository.ProductRepo;
 import lombok.SneakyThrows;
 
+import edu.clevertec.check.dto.Product;
+import edu.clevertec.check.service.impl.SupermarketServiceImpl;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +29,8 @@ public class ProductRepoImpl implements ProductRepo<Integer, Product> {
         PRODUCTS.put(7, new Sweets(7, "Tic-tac", 1.70d, true));
         PRODUCTS.put(8, new Sweets(8, "NUTS", 1.40d, true));
     }
+
+
 
     @Override
     public Collection<Product> findAll() {

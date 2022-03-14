@@ -1,34 +1,20 @@
 
-insert into products (name, price, sale, quantity, in_stock) values
-('Fish', 11, true,0, true),
-('Cat', 111, true,0,true),
-('Alcohol', 555, false,0,true),
-('Bread', 785, true,0,true),
-('Meat', 56.47, false,0,true),
-('Coffee', 457.7, true,0,true),
-('Milk', 777, false,0,true),
-('Eig', 666.66, false,0,true),
-('Potato', 74, true,0,true),
-('Fruit', 73, false,0,true);
-
-insert into discount_cards (discount_percentage) values
-(3),
-(5),
-(7),
-(10),
-(12),
-(15),
-(25);
-
-insert into users (username, password, enabled) values
-('admin', '{bcrypt}$2a$12$Qdg5iV9.ttgS.pKkdmGQ6u93i.bFcvHqOnkDzlyzLj3cBYZ7WZylG', true),
-('user', '{bcrypt}$2a$12$4ufTIoFSUirK8/xASrfGLOljwqZoJmcBsSUXysnzvPLovYojJAlTK', true);
+insert into myProducts ( id_product, name, cost, promotional ) values
+(1,'Fish Sturgeon', 1.80, false),
+(2,'Meat', 5.01, false),
+(3,'KitKat', 2.8, true),
+(4,'Fish Perch', 1.3, false),
+(5,'Snickers', 3.5, true),
+(6,'Bounty', 2.3, true),
+(7,'Tic-tac', 1.7, true),
+(8,'NUTS', 1.4, true);
 
 
-insert into authorities (username, authority) values
-('admin', 'ROLE_ADMIN'),
-('user', 'ROLE_USER');
+insert into myDiscountCards (name, number, sale) values
+('MAESTROCARD', 623587, 3 );
 
 
-SELECT * FROM products;
-
+SELECT * from myProducts;
+SELECT * from myDiscountCards;
+drop table myProducts;
+drop table myDiscountCards;

@@ -55,7 +55,7 @@ QTY   DESCRIPTION       PRICE      TOTAL
 3     Meat              $5.01      $15,03
 2     NUTS              $1.4       $2,8
 ----------------------------------------
-#	  MAESTROCARD 623587456214
+#	  MAESTROCARD 623587
 #	  has been provided
 #	  Included 3% discount
 ----------------------------------------

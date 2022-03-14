@@ -1,6 +1,6 @@
-package edu.clevertec.check.jdbc.repository;
+package edu.clevertec.check.repository;
 
-import edu.clevertec.check.jdbc.entity.Product;
+import edu.clevertec.check.entity.Product;
 
 public interface ProductRepository {
 

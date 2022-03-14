@@ -23,7 +23,7 @@ public enum DiscountCard {
 
     public void setNumber(String number) throws InvalidCardNumberException {
 
-        if (!number.matches("\\d{12}")) throw new InvalidCardNumberException();
+        if (!number.matches("\\d{6}")) throw new InvalidCardNumberException();
         this.number = number;
     }
 

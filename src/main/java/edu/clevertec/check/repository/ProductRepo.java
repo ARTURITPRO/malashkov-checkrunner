@@ -17,3 +17,5 @@ public interface ProductRepo<K, T> {
 
     boolean delete(K id);
 }
+
+

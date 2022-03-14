@@ -1,4 +1,4 @@
-package edu.clevertec.check.jdbc.entity;
+package edu.clevertec.check.entity;
 
 import lombok.Builder;
 import lombok.Data;
