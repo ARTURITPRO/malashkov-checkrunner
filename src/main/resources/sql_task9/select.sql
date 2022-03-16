@@ -1,21 +1,21 @@
--- Найти все товары по первой букве 'D' в названии товара
-SELECT name, price,  engine_power,   amperage,   efficiency_pump,    producer_id
+-- Найти все товары по первой букве 'S' в названии товара со всеми характеристиками и ценой
+SELECT name, price,  engine_power,   amperage,   efficiency_pump
 FROM product
-WHERE name LIKE 'D%';
+WHERE name LIKE 'S%';
 
--- Найти все товары по первой букве 'D' в названии товара с выводом страны производителя
-SELECT p.name, p.price,  p.engine_power,   p.amperage,   f.country AS country
+-- Найти все товары по первой букве 'E' в названии товара с выводом страны производителя
+SELECT p.name,  f.country AS country
 FROM product p
          JOIN firm f ON p.producer_id = f.id
-WHERE p.name LIKE 'D%';
+WHERE p.name LIKE 'E%';
 
--- Найти все товары с буквой 'С' в названии с выводом фирмы производителя
-SELECT p.name, p.price,  p.engine_power,   p.amperage,   f.pump_brand AS brand
+-- Найти все товары с буквой 'S' в названии с выводом фирмы производителя
+SELECT p.name, f.pump_brand AS brand
 FROM product p
          JOIN firm f ON p.producer_id = f.id
-WHERE p.name LIKE 'C%';
+WHERE p.name LIKE 'S%';
 
--- Вывести  список  покупок погружных насосов предприятием  "Gomelvodokanal"
+-- Вывести  информацию о предприятии "Gomelvodokanal" и стоимость  покупок погружных насосов предприятием
 SELECT c.name, c.city, c.adress, concat_ws(' ', c.tel_code, c.tel_number) AS "phone number", p.count*pr.price AS cost
 FROM company c
          JOIN purchases p ON c.id = p.company_id
@@ -38,7 +38,7 @@ FROM purchases pu
          JOIN product pr ON pr.id = pu.product_id
 ORDER BY cost DESC;
 --Найти мощные погружные насосы,купленные предприятиями, у которых ток превышает 70 Ампер,
--- а производительность подачи воды  больше  80, отссортировать данные ампеража по убыванию.
+-- а производительность подачи воды  больше  от, отссортировать данные ампеража по убыванию.
 SELECT c.name, pr.name, pr.amperage, pr.efficiency_pump
 FROM purchases pu
          JOIN company c  ON c.id = pu.company_id

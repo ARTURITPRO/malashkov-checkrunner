@@ -1,20 +1,11 @@
 package edu.clevertec.check.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.clevertec.check.dto.Product;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import edu.clevertec.check.dto.Fish;
-import edu.clevertec.check.dto.Meat;
-import edu.clevertec.check.dto.Product;
-import edu.clevertec.check.dto.Sweets;
 import edu.clevertec.check.exception.GroceryException;
-import edu.clevertec.check.exception.NoSuchProductException;
 import edu.clevertec.check.service.SupermarketService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

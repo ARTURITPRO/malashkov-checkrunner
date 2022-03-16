@@ -1,4 +1,4 @@
-package edu.clevertec.check.jdbc.util;
+package edu.clevertec.check.util;
 
 import lombok.Data;
 import lombok.SneakyThrows;
@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 
 @Data
 @UtilityClass
-public class JdbcManager {
+public class ConnectionManager {
 
     private static final String PROPERTIES_FILE = "application.yml";
 
@@ -34,6 +34,4 @@ public class JdbcManager {
                 SettingsUtil.get(USER),
                 SettingsUtil.get(PASSWORD));
     }
-
-
 }

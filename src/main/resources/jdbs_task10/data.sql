@@ -1,5 +1,6 @@
 
-insert into myProducts ( id_product, name, cost, promotional ) values
+
+insert into product ( id_product, name, cost, promotional ) values
 (1,'Fish Sturgeon', 1.80, false),
 (2,'Meat', 5.01, false),
 (3,'KitKat', 2.8, true),
@@ -10,11 +11,12 @@ insert into myProducts ( id_product, name, cost, promotional ) values
 (8,'NUTS', 1.4, true);
 
 
-insert into myDiscountCards (name, number, sale) values
-('MAESTROCARD', 623587, 3 );
+insert into discountCard (sale) values
+( 3 ),
+( 6 );
 
 
-SELECT * from myProducts;
-SELECT * from myDiscountCards;
-drop table myProducts;
-drop table myDiscountCards;
+drop table product;
+SELECT nextval('product_id_seq'::regclass);
+select setval('product_id_seq',1);
+

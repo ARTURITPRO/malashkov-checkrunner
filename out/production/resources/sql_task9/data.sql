@@ -83,3 +83,7 @@ VALUES                  (1,             1,              5),
                         (4,             1,             8),
                         (1,             25,             8),
                         (2,             26,             4);
+drop table  company;
+drop table  firm;
+drop table  product;
+drop table  purchases;

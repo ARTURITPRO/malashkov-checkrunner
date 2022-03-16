@@ -1,21 +1,16 @@
-CREATE DATABASE MyProduct;
-
-create table myProducts(
-    id   BIGSERIAL PRIMARY KEY,
-    id_product int,
-    name varchar(25),
-    cost numeric(10, 2),
-    promotional boolean
+CREATE DATABASE product;
+DROP DATABASE product;
+create table product(
+                        id   BIGSERIAL PRIMARY KEY,
+                        id_product int,
+                        name varchar(25),
+                        cost double precision,
+                        promotional boolean
 );
 
-
-create table myDiscountCards(
-    id   BIGSERIAL PRIMARY KEY,
-    name varchar(25),
-    number int,
-    sale int
+create table discountCard(
+                              id   BIGSERIAL PRIMARY KEY,
+                              sale int
 );
-
-
 
 

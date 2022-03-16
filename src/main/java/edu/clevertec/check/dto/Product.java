@@ -1,15 +1,14 @@
 package edu.clevertec.check.dto;
 
 import java.util.Objects;
-
 public class Product implements Entity, Comparable<Product> {
 
-    private final int id;
+    private  int id;
     private final String name;
-    private double cost;
+    private Double cost;
     private boolean promotional;
 
-    public Product(int id, String name, double cost, boolean promotional) {
+    public Product(int id, String name, Double cost, boolean promotional) {
         this.id = id;
         this.name = name;
         this.cost = cost;
@@ -21,11 +20,15 @@ public class Product implements Entity, Comparable<Product> {
         return id;
     }
 
+    public void setId (int id){
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
-    public double getCost() {
+    public Double getCost() {
         return cost;
     }
 
@@ -33,7 +36,7 @@ public class Product implements Entity, Comparable<Product> {
         return promotional;
     }
 
-    public void setCost(double cost) {
+    public void setCost(Double cost ) {
         this.cost = cost;
     }
 
@@ -56,5 +59,10 @@ public class Product implements Entity, Comparable<Product> {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, cost, promotional);
+    }
+
+    @Override
+    public String toString() {
+        return "{id_product = "+getId() + "; name = "+getName() + "; cost = " + getCost()   + "; promotional = "+ isPromotional()+" }";
     }
 }
