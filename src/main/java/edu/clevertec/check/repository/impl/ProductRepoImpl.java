@@ -25,7 +25,7 @@ public class ProductRepoImpl implements ProductRepo<Integer, Product> {
         ResultSet resultSet = stmt.executeQuery("select * from product");
         while (resultSet.next()) {
             Product product = new Product(
-                    resultSet.getObject("id_product", Integer.class),
+                    resultSet.getObject("id", Integer.class),
                     resultSet.getObject("name", String.class),
                     resultSet.getObject("cost", Double.class),
                     resultSet.getObject("promotional", Boolean.class)
@@ -47,13 +47,12 @@ public class ProductRepoImpl implements ProductRepo<Integer, Product> {
     private Product save(Connection connection, Product product) {
 
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(
-                "INSERT INTO product (id_product, name, cost, promotional) " +
-                        "VALUES (?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+                "INSERT INTO product (name, cost, promotional) " +
+                        "VALUES (?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
 
-        preparedStatement.setObject(1, product.getId());
-        preparedStatement.setObject(2, product.getName());
-        preparedStatement.setObject(3, product.getCost());
-        preparedStatement.setObject(4, product.isPromotional());
+        preparedStatement.setObject(1, product.getName());
+        preparedStatement.setObject(2, product.getCost());
+        preparedStatement.setObject(3, product.isPromotional());
 
         preparedStatement.executeUpdate();
 
@@ -75,9 +74,9 @@ public class ProductRepoImpl implements ProductRepo<Integer, Product> {
     @SneakyThrows
     private Product findById(Connection connection, int id) {
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(
-                "SELECT id_product, name, cost, promotional " +
+                "SELECT id, name, cost, promotional " +
                         "FROM product " +
-                        "WHERE id = ?;");
+                        "WHERE id = ?");
 
         preparedStatement.setObject(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -85,7 +84,7 @@ public class ProductRepoImpl implements ProductRepo<Integer, Product> {
 
         if (resultSet.next()) {
             product = new Product(
-                    resultSet.getObject("id_product", Integer.class),
+                    resultSet.getObject("id", Integer.class),
                     resultSet.getObject("name", String.class),
                     resultSet.getObject("cost", Double.class),
                     resultSet.getObject("promotional", Boolean.class)
@@ -105,21 +104,20 @@ public class ProductRepoImpl implements ProductRepo<Integer, Product> {
     private Product update(Connection connection, Product product) {
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(
                 "UPDATE product " +
-                        "SET id_product = ?, name = ?, cost = ?, promotional = ? " +
+                        "SET name = ?, cost = ?, promotional = ? " +
                         "WHERE id = ? " +
-                        "RETURNING id_product, name,  cost, promotional  ;"
+                        "RETURNING id, name,  cost, promotional  ;"
         );
-        // id_product, name, cost, promotional
-        preparedStatement.setObject(1, product.getId());
-        preparedStatement.setObject(2, product.getName());
-        preparedStatement.setObject(3, product.getCost());
-        preparedStatement.setObject(4, product.isPromotional());
-        preparedStatement.setObject(5, product.getId());
+        // id, name, cost, promotional
+        preparedStatement.setObject(4, product.getId());
+        preparedStatement.setObject(1, product.getName());
+        preparedStatement.setObject(2, product.getCost());
+        preparedStatement.setObject(3, product.isPromotional());
         ResultSet resultSet = preparedStatement.executeQuery();
         Product productResult = null;
         if (resultSet.next()) {
             productResult = new Product(
-                    resultSet.getObject("id_product", Integer.class),
+                    resultSet.getObject("id", Integer.class),
                     resultSet.getObject("name", String.class),
                     resultSet.getObject("cost", Double.class),
                     resultSet.getObject("promotional", Boolean.class)

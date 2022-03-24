@@ -4,6 +4,6 @@ public class InvalidCardNumberException extends GroceryException {
 
     @Override
     public String getMessage() {
-        return "Number length must be 12";
+        return "Number length must be 6";
     }
 }
