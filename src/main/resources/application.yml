@@ -14,3 +14,4 @@ db.url: jdbc:postgresql://localhost:5432/product
 db.username: postgres
 db.password: 0147896325aA
 db.driver: org.postgresql.Driver
+db.autorundbsql: true

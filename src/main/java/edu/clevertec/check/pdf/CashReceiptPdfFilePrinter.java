@@ -16,7 +16,9 @@ import com.itextpdf.layout.properties.VerticalAlignment;
 
 import edu.clevertec.check.dto.Product;
 import edu.clevertec.check.service.impl.SupermarketServiceImpl;
+import lombok.Cleanup;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -26,14 +28,14 @@ import java.util.Map;
 public class CashReceiptPdfFilePrinter implements CashReceiptPrinter {
 
     @Override
-    public void print(SupermarketServiceImpl check) throws IOException {
-
-        String readFilePath = "src\\main\\resources\\clevertec.pdf";
+    public byte [] print(SupermarketServiceImpl check) throws IOException {
+        String readFilePath = "clevertec.pdf";
+        // String readFilePath = "src\\main\\resources\\clevertec.pdf";
         String pathRecordFile = "checkOfSupermarket.pdf";
 
+        @Cleanup ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PdfDocument backgroundPdfDocument = new PdfDocument(new PdfReader(readFilePath));
-
-        PdfDocument checkPdfDocument = new PdfDocument(new PdfWriter(pathRecordFile));
+        PdfDocument checkPdfDocument = new PdfDocument(new PdfWriter(outputStream));
         checkPdfDocument.addNewPage();
 
         Document document = new Document(checkPdfDocument);
@@ -50,6 +52,7 @@ public class CashReceiptPdfFilePrinter implements CashReceiptPrinter {
         backgroundPdfDocument.close();
         checkPdfDocument.close();
         document.close();
+        return outputStream.toByteArray();
     }
 
     private static Table getHeadingTable() {

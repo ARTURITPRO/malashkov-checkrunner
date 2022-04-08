@@ -1,27 +1,27 @@
 package edu.clevertec.check.dto;
-
 import java.util.Objects;
 
 public class Product implements Entity, Comparable<Product> {
+    public int id;
+    public String name;
+    public double cost;
+    public boolean promotional;
 
-    private Integer id;
-    private final String name;
-    private Double cost;
-    private boolean promotional;
+    public Product() {
+    }
 
-    public Product(Integer id, String name, Double cost, boolean promotional) {
+    public Product(int id, String name, double cost, boolean promotional) {
         this.id = id;
         this.name = name;
         this.cost = cost;
         this.promotional = promotional;
     }
-
     @Override
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -29,16 +29,20 @@ public class Product implements Entity, Comparable<Product> {
         return name;
     }
 
-    public Double getCost() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getCost() {
         return cost;
     }
 
-    public boolean isPromotional() {
-        return promotional;
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 
-    public void setCost(Double cost) {
-        this.cost = cost;
+    public boolean getPromotional() {
+        return promotional;
     }
 
     public void setPromotional(boolean promotional) {
@@ -64,6 +68,6 @@ public class Product implements Entity, Comparable<Product> {
 
     @Override
     public String toString() {
-        return "{id = " + getId() + "; name = " + getName() + "; cost = " + getCost() + "; promotional = " + isPromotional() + " }";
+        return "{id = " + id + "; name = " + name + "; cost = " + cost + "; promotional = " + promotional + " }";
     }
 }

@@ -15,8 +15,13 @@ public class ProductServiceImpl implements ProductService<Integer, Product> {
     private final ProductRepo<Integer, Product> productRepo = new ProductRepoImpl();
 
     @Override
-    public Collection<Product> findAll() {
-        return productRepo.findAll();
+    public Collection<Product> findAll(Integer pageSize, Integer size) {
+        return productRepo.findAll(pageSize, size);
+    }
+
+    @Override
+    public Collection<Product> findAll(Integer pageSize) {
+        return productRepo.findAll(pageSize);
     }
 
     @Caches

@@ -23,18 +23,30 @@ public class ProductController extends HttpServlet {
 
     private final ProductService<Integer, Product> productService = new ProductServiceImpl();
     private final ObjectMapper objectMapper = new ObjectMapper();
-
+    private final Gson gsonMapper = new Gson();
+    private Integer pageSize = 20;
+    private Integer size = 1;
     @Override
     @SneakyThrows
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         log.info("Starting ProductController for GET request: {}", req.getRequestURI());
 
-        String[] requestPath = req.getRequestURI().split("/");
-        String productsJson = new ObjectMapper().writeValueAsString(
-                req.getRequestURI().contains("/products/")
-                        ? productService.findById(Integer.valueOf(requestPath[requestPath.length - 1])).get()
-                        : productService.findAll()
-        );
+        String productsJson;
+
+        if (req.getParameterMap().containsKey("pageSize") && req.getParameterMap().containsKey("size")) {
+            pageSize = Integer.parseInt(req.getParameter("pageSize"));
+            size = Integer.parseInt(req.getParameter("size"));
+            productsJson = new ObjectMapper().writeValueAsString(productService.findAll(pageSize,size)
+            );
+        } else {
+            String[] requestPath = req.getRequestURI().split("/");
+            productsJson = new ObjectMapper().writeValueAsString(
+                    req.getRequestURI().contains("/products/")
+                            ? productService.findById(Integer.valueOf(requestPath[requestPath.length - 1])).get()
+                            : productService.findAll(pageSize)
+            );
+        }
+
 
         PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
@@ -52,14 +64,14 @@ public class ProductController extends HttpServlet {
         String requestBody = ReaderRequestBody.getRequestBody(req);
         log.info("Incoming JSON: {}", requestBody);
 
-        Product product = objectMapper.readValue(requestBody, Product.class);
+        Product product = gsonMapper.fromJson(requestBody, Product.class);
         productService.save(product);
 
-        PrintWriter writer = resp.getWriter();
-        String id = new Gson().toJson(product);
-        writer.write(id);
-        resp.setStatus(200);
-
+        PrintWriter out = resp.getWriter();
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        out.print("{\"id\": " + product.getId() + "}");
+        out.flush();
         log.info("Stopping ProductController for POST request: {}", req.getRequestURI());
     }
 
@@ -67,26 +79,26 @@ public class ProductController extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("Starting ProductController for PUT request: {}", req.getRequestURI());
 
-        int idProduct = Integer.parseInt(req.getParameter("idProduct"));
-        String name = req.getParameter("name");
-        double cost = Double.parseDouble(req.getParameter("cost"));
-        boolean promotional = Boolean.parseBoolean(req.getParameter("promotional"));
-        Product product = new Product(idProduct, name, cost, promotional);
+        String requestBody = ReaderRequestBody.getRequestBody(req);
+        log.info("Incoming JSON: {}", requestBody);
+
+        Product product = objectMapper.readValue(requestBody, Product.class);
         productService.update(product);
 
-        PrintWriter writer = resp.getWriter();
-        String result = new Gson().toJson(true);
-        writer.write(result);
+        PrintWriter out = resp.getWriter();
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        out.print("{\"id\": " + product.getId() + "}");
+        out.flush();
 
         log.info("Stopping ProductController for PUT request: {}", req.getRequestURI());
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int idProduct = Integer.parseInt(req.getParameter("idProduct"));
-        boolean isRemove = false;
-
-            isRemove = productService.delete(idProduct);
+        log.info("Starting ProductController for DELrequest: {}", req.getRequestURI());
+        String[] requestPath = req.getRequestURI().split("/");
+        boolean isRemove = productService.delete(Integer.valueOf(requestPath[requestPath.length - 1]));
 
         try (PrintWriter writer = resp.getWriter()) {
             if (isRemove) {
@@ -97,5 +109,6 @@ public class ProductController extends HttpServlet {
                 resp.sendError(400, "Product not found.");
             }
         }
+        log.info("Stopping  ProductController for DELrequest: {}", req.getRequestURI());
     }
 }

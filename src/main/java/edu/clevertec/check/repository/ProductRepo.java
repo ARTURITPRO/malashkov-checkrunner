@@ -7,8 +7,10 @@ import java.util.Optional;
 
 public interface ProductRepo<K, T> {
 
-    Collection<Product> findAll();
-    
+    Collection<Product> findAll(Integer pageSize);
+
+    Collection<Product> findAll(Integer pageSize, Integer size);
+
     T save(T entity);
 
     Optional<T> findById(K id);

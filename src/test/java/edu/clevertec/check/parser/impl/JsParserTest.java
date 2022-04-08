@@ -17,7 +17,7 @@ class JsParserTest {
     void setUP() {
         objectMapper = new ObjectMapper();
         jsonParser = new JsParser();
-        product = new Product(1, "Fish", 4, true);
+        product = new Product(1, "Fish", 4.8, true);
     }
 
     @Test

@@ -7,6 +7,6 @@ import java.io.IOException;
 
 public interface CashReceiptPrinter {
 
-    void print(SupermarketServiceImpl cashReceipt) throws IOException;
+     byte [] print(SupermarketServiceImpl cashReceipt) throws IOException;
 
 }

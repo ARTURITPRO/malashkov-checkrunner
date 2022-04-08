@@ -18,11 +18,39 @@ public class ProductRepoImpl implements ProductRepo<Integer, Product> {
 
     @SneakyThrows
     @Override
-    public Collection<Product> findAll() {
+    public Collection<Product> findAll(Integer pageSize) {
         Connection connection = ConnectionManager.get();
-        Statement stmt = connection.createStatement();
+        PreparedStatement stmt = connection.prepareStatement(
+                "select * from product ORDER BY id " + "LIMIT ?;" );
+
+        stmt.setObject(1, pageSize);
+        ResultSet resultSet = stmt.executeQuery();
         List<Product> products = new ArrayList<>();
-        ResultSet resultSet = stmt.executeQuery("select * from product");
+        while (resultSet.next()) {
+            Product product = new Product(
+                    resultSet.getObject("id", Integer.class),
+                    resultSet.getObject("name", String.class),
+                    resultSet.getObject("cost", Double.class),
+                    resultSet.getObject("promotional", Boolean.class)
+            );
+            log.info("The entity was found in the database: {}", product);
+            products.add(product);
+        }
+        return products;
+    }
+
+    @SneakyThrows
+    @Override
+    public Collection<Product> findAll(Integer pageSize, Integer size) {
+        Connection connection = ConnectionManager.get();
+        PreparedStatement stmt = connection.prepareStatement(
+                "select * from product ORDER BY id " +"OFFSET ? "+"  LIMIT ?;" );
+        final Integer CONST = 1;
+        Integer i = pageSize * (size-CONST);
+        stmt.setObject(1, i);
+        stmt.setObject(2, pageSize);
+        ResultSet resultSet = stmt.executeQuery();
+        List<Product> products = new ArrayList<>();
         while (resultSet.next()) {
             Product product = new Product(
                     resultSet.getObject("id", Integer.class),
@@ -52,7 +80,7 @@ public class ProductRepoImpl implements ProductRepo<Integer, Product> {
 
         preparedStatement.setObject(1, product.getName());
         preparedStatement.setObject(2, product.getCost());
-        preparedStatement.setObject(3, product.isPromotional());
+        preparedStatement.setObject(3, product.getPromotional());
 
         preparedStatement.executeUpdate();
 
@@ -112,7 +140,7 @@ public class ProductRepoImpl implements ProductRepo<Integer, Product> {
         preparedStatement.setObject(4, product.getId());
         preparedStatement.setObject(1, product.getName());
         preparedStatement.setObject(2, product.getCost());
-        preparedStatement.setObject(3, product.isPromotional());
+        preparedStatement.setObject(3, product.getPromotional());
         ResultSet resultSet = preparedStatement.executeQuery();
         Product productResult = null;
         if (resultSet.next()) {

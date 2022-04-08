@@ -12,12 +12,10 @@ import java.sql.DriverManager;
 public class ConnectionManager {
 
     private static final String PROPERTIES_FILE = "application.yml";
-
     private static final String URL = "db.url";
     private static final String USER = "db.username";
     private static final String PASSWORD = "db.password";
     private static final String DRIVER = "db.driver";
-
     static {
         loadDriver();
     }

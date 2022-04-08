@@ -2,14 +2,31 @@ package edu.clevertec.check.dto;
 
 import edu.clevertec.check.exception.InvalidCardNumberException;
 
-public enum DiscountCard {
+public class DiscountCard  {
 
-    MAESTROCARD(3), MASTERCARD(6);
 
-    int discount;
-    String number;
+    private int id;
+    private int discount;
+    private int number;
 
-    DiscountCard(int discount) {
+    DiscountCard() {
+    }
+
+    public DiscountCard(int id, int discount, int number) {
+        this.id = id;
+        this.discount = discount;
+        this.number = number;
+
+    }
+
+    public  void setId(int id) {
+        this.id = id;
+    }
+    public  int getId() {
+        return id;
+    }
+
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
 
@@ -17,18 +34,17 @@ public enum DiscountCard {
         return discount;
     }
 
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(String number) throws InvalidCardNumberException {
-        if (!number.matches("\\d{6}")) throw new InvalidCardNumberException();
+    public void setNumber(int number) throws InvalidCardNumberException {
+        if ( number < 0 ) throw new InvalidCardNumberException();
         this.number = number;
     }
 
-
     @Override
     public String toString() {
-        return this.name() + " " + getNumber() + " ";
+        return "{id = " + id + "; discount = " + discount + "; number = " + number + " }";
     }
 }

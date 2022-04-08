@@ -1,6 +1,5 @@
 package edu.clevertec.check.repository.impl;
 
-
 import edu.clevertec.check.dto.DiscountCard;
 import edu.clevertec.check.repository.DiscountCardRepo;
 import edu.clevertec.check.util.ConnectionManager;
@@ -8,16 +7,79 @@ import lombok.Cleanup;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
-import static edu.clevertec.check.dto.DiscountCard.MAESTROCARD;
-import static edu.clevertec.check.dto.DiscountCard.MASTERCARD;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 public class DiscountCardRepoImpl implements DiscountCardRepo {
+
+    @SneakyThrows
+    @Override
+    public Collection<DiscountCard> findAll() {
+        Connection connection = ConnectionManager.get();
+        Statement stmt = connection.createStatement();
+        List<DiscountCard> discountCards = new ArrayList<>();
+        ResultSet resultSet = stmt.executeQuery("select * from discountCard");
+        while (resultSet.next()) {
+            DiscountCard discountCard = new DiscountCard(
+                    resultSet.getObject("id", Integer.class),
+                    resultSet.getObject("discount", Integer.class),
+                    resultSet.getObject("number", Integer.class)
+            );
+            log.info("The entity was found in the database: {}", discountCard);
+            discountCards.add(discountCard);
+        }
+        return discountCards;
+    }
+
+    @SneakyThrows
+    @Override
+    public Collection<DiscountCard> findAll(Integer pageSize) {
+        Connection connection = ConnectionManager.get();
+        PreparedStatement stmt = connection.prepareStatement(
+                "select * from discountCard ORDER BY id " + "LIMIT ?;" );
+
+        stmt.setObject(1, pageSize);
+        ResultSet resultSet = stmt.executeQuery();
+        List<DiscountCard> discountCards = new ArrayList<>();
+        while (resultSet.next()) {
+            DiscountCard discountCard = new DiscountCard(
+                    resultSet.getObject("id", Integer.class),
+                    resultSet.getObject("discount", Integer.class),
+                    resultSet.getObject("number", Integer.class)
+            );
+            log.info("The entity was found in the database: {}", discountCard);
+            discountCards.add(discountCard);
+        }
+        return discountCards;
+    }
+
+    @SneakyThrows
+    @Override
+    public Collection<DiscountCard> findAll(Integer pageSize, Integer size) {
+        Connection connection = ConnectionManager.get();
+        PreparedStatement stmt = connection.prepareStatement(
+                "select * from discountCard ORDER BY id " +"OFFSET ? "+"  LIMIT ?;" );
+        final Integer CONST = 1;
+        Integer i = pageSize * (size-CONST);
+        stmt.setObject(1, i);
+        stmt.setObject(2, pageSize);
+        ResultSet resultSet = stmt.executeQuery();
+        List<DiscountCard> discountCards = new ArrayList<>();
+        while (resultSet.next()) {
+            DiscountCard discountCard = new DiscountCard(
+                    resultSet.getObject("id", Integer.class),
+                    resultSet.getObject("discount", Integer.class),
+                    resultSet.getObject("number", Integer.class)
+            );
+            log.info("The entity was found in the database: {}", discountCard);
+            discountCards.add(discountCard);
+        }
+        return discountCards;
+    }
 
     @Override
     @SneakyThrows
@@ -29,16 +91,18 @@ public class DiscountCardRepoImpl implements DiscountCardRepo {
     @SneakyThrows
     private DiscountCard save(Connection connection, DiscountCard discountCard) {
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(
-                "INSERT INTO discountCard (sale) " +
-                        "VALUES (?);", Statement.RETURN_GENERATED_KEYS);
+                "INSERT INTO discountCard (discount, number) " +
+                        "VALUES (?,?);", Statement.RETURN_GENERATED_KEYS);
 
         preparedStatement.setObject(1, discountCard.getDiscount());
+        preparedStatement.setObject(2, discountCard.getNumber());
 
         preparedStatement.executeUpdate();
 
         ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
         generatedKeys.next();
-        log.info("The entity is saved in the database: {}", discountCard);
+        discountCard.setId(generatedKeys.getObject("id", Integer.class));
+        log.info("The discountCard is saved in the database: {}", discountCard);
 
         return discountCard;
     }
@@ -53,25 +117,21 @@ public class DiscountCardRepoImpl implements DiscountCardRepo {
     @SneakyThrows
     private DiscountCard findById(Connection connection, int id) {
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(
-                "SELECT id, sale " +
+                "SELECT id, discount, number " +
                         "FROM discountCard " +
-                        "WHERE id = ?;"
-        );
+                        "WHERE id = ?");
 
         preparedStatement.setObject(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         DiscountCard discountCard = null;
+
         if (resultSet.next()) {
-            if (resultSet.getObject("sale", Integer.class) < 6) {
-                log.info("The entity was found in the database: {}", MAESTROCARD);
-                return MAESTROCARD;
-            }
-            if (resultSet.getObject("sale", Integer.class) >= 6) {
-                log.info("The entity was found in the database: {}", MASTERCARD);
-                return MASTERCARD;
-            } else {
-                log.info("The entity not found in the database with id = {}", id);
-            }
+            discountCard = new DiscountCard(
+                    resultSet.getObject("id", Integer.class),
+                    resultSet.getObject("discount", Integer.class),
+                    resultSet.getObject("number", Integer.class)
+            );
+            log.info("The entity was found in the database: {}", discountCard);
         }
         return discountCard;
     }
@@ -99,31 +159,33 @@ public class DiscountCardRepoImpl implements DiscountCardRepo {
     }
 
     @Override
-    @SneakyThrows
-    public DiscountCard update(DiscountCard discountCard, int idCard) {
+    public Optional<DiscountCard> update(DiscountCard discountCard) {
         Connection connection = ConnectionManager.get();
-        return update(connection, discountCard, idCard);
+        return Optional.ofNullable(update(connection, discountCard));
     }
 
     @SneakyThrows
-    private DiscountCard update(Connection connection, DiscountCard discountCard, int idCard) {
+    private DiscountCard update(Connection connection, DiscountCard discountCard) {
         @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(
                 "UPDATE discountCard " +
-                        "SET sale = ? " +
+                        "SET discount = ?, number = ?" +
                         "WHERE id = ? " +
-                        "RETURNING id, sale; "
+                        "RETURNING id, discount,  number;"
         );
+
         preparedStatement.setObject(1, discountCard.getDiscount());
-        preparedStatement.setObject(2, idCard);
-
-
+        preparedStatement.setObject(2, discountCard.getNumber());
+        preparedStatement.setObject(3, discountCard.getId());
         ResultSet resultSet = preparedStatement.executeQuery();
-        DiscountCard discountCardResult = null;
-
+        DiscountCard discountCard1 = null;
         if (resultSet.next()) {
-            discountCardResult = discountCard;
-            log.info("The entity has been updated in the database: {}", discountCardResult);
+            discountCard1 = new DiscountCard(
+                    resultSet.getObject("id", Integer.class),
+                    resultSet.getObject("discount", Integer.class),
+                    resultSet.getObject("number", Integer.class)
+            );
+            log.info("The entity has been updated in the database: {}", discountCard1);
         }
-        return discountCardResult;
+        return discountCard1;
     }
 }

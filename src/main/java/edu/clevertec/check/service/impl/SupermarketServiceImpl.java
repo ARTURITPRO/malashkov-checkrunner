@@ -67,14 +67,49 @@ public class SupermarketServiceImpl implements SupermarketService {
                         orderMap.containsKey(foundProduct) ? orderMap.get(foundProduct) + amountOfProduct
                                 : amountOfProduct);
             } else {
-                if (splittedArgs[0].equalsIgnoreCase("maestrocard")) {
-                    DiscountCardRepoImpl dc = new DiscountCardRepoImpl();
-                    this.card = dc.findById(1);
-                    this.card.setNumber(splittedArgs[1].trim());
-                } else if (splittedArgs[0].equalsIgnoreCase("mastercard")) {
-                    DiscountCardRepoImpl dc = new DiscountCardRepoImpl();
-                    this.card = dc.findById(2);
-                    this.card.setNumber(splittedArgs[1].trim());
+                if (splittedArgs[0].equalsIgnoreCase("card")) {
+                    if (Integer.parseInt(splittedArgs[1]) > 50) {
+                        DiscountCardRepoImpl dc = new DiscountCardRepoImpl();
+                        this.card = dc.findById(Integer.parseInt(splittedArgs[1]));
+                        this.card.setDiscount(50);
+                    } else {
+                        DiscountCardRepoImpl dc = new DiscountCardRepoImpl();
+                        this.card = dc.findById(Integer.parseInt(splittedArgs[1]));
+                    }
+                } else throw new InvalidCardTypeException();
+            }
+        }
+        return this;
+    }
+
+    public SupermarketServiceImpl addOrder(String a) throws NoSuchProductException,
+            InvalidCardNumberException, InvalidCardTypeException {
+
+        String[] args = a.split(" ");
+
+        orderMap = new HashMap<>();
+        String[] splittedArgs;
+        Product foundProduct;
+
+        //добовляем в map продукты и их кол-во, key - product, value - кол-во
+        for (String arg : args) {
+            splittedArgs = arg.split("-");
+            if (!arg.toLowerCase().contains("card")) {
+                foundProduct = findProductInAssortmentById(Integer.parseInt(splittedArgs[0]));
+                int amountOfProduct = Integer.parseInt(splittedArgs[1]);
+                orderMap.put(foundProduct,
+                        orderMap.containsKey(foundProduct) ? orderMap.get(foundProduct) + amountOfProduct
+                                : amountOfProduct);
+            } else {
+                if (splittedArgs[0].equalsIgnoreCase("card")) {
+                    if (Integer.parseInt(splittedArgs[1]) > 50) {
+                        DiscountCardRepoImpl dc = new DiscountCardRepoImpl();
+                        this.card = dc.findById(Integer.parseInt(splittedArgs[1]));
+                        this.card.setDiscount(50);
+                    } else {
+                        DiscountCardRepoImpl dc = new DiscountCardRepoImpl();
+                        this.card = dc.findById(Integer.parseInt(splittedArgs[1]));
+                    }
                 } else throw new InvalidCardTypeException();
             }
         }
@@ -105,19 +140,19 @@ public class SupermarketServiceImpl implements SupermarketService {
             amount = entry.getValue();
             /*--------------------------------------------------------------------------------------------------------------------*/
             //Если продукт не акционный
-            if (!product.isPromotional()) {
+            if (!product.getPromotional()) {
                 ReceiptInfoReceivedFromOrder.append(String.format("%-5s %-17s %-10s %-10s\n",
                         amount, product.getName(), "$" + product.getCost(), "$" + decimalFormat.format(product.getCost() * amount)));
             }
             /*--------------------------------------------------------------------------------------------------------------------*/
             // Если продукт акционный, и его количество меньше 5
-            if (product.isPromotional() && amount < 5) {
+            if (product.getPromotional() && amount < 5) {
                 ReceiptInfoReceivedFromOrder.append(String.format("%-5s %-17s %-10s %-10s\n",
                         amount, product.getName(), "$" + product.getCost(), "$" + decimalFormat.format(product.getCost() * amount)));
             }
             /*--------------------------------------------------------------------------------------------------------------------*/
             //Если продукт  акционный и его количество 5 и выше
-            if (product.isPromotional() && amount >= 5) {
+            if (product.getPromotional() && amount >= 5) {
 
                 //Скидочный коэффициент на цену товара
                 double discountСoefficient = 0.1d;
@@ -154,7 +189,7 @@ public class SupermarketServiceImpl implements SupermarketService {
         /*----------------------------------------------------------------------------------------------------------------------*/
         if (card != null) {
             ReceiptInfoReceivedFromOrder.append("----------------------------------------\n");
-            ReceiptInfoReceivedFromOrder.append("#\t  ").append(card)
+            ReceiptInfoReceivedFromOrder.append("#\t  ").append("Discount card")
                     .append("\n#\t  has been provided\n")
                     .append("#\t  Included " + card.getDiscount() + "% discount\n");
 

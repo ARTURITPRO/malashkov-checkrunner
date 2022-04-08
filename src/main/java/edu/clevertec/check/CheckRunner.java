@@ -1,11 +1,13 @@
 package edu.clevertec.check;
 
+import edu.clevertec.check.dto.Product;
 import edu.clevertec.check.exception.InvalidCardNumberException;
 import edu.clevertec.check.exception.InvalidCardTypeException;
 import edu.clevertec.check.exception.NoSuchProductException;
 import edu.clevertec.check.exception.OrderAreNotCreatedException;
 import edu.clevertec.check.pdf.CashReceiptPdfFilePrinter;
 import edu.clevertec.check.pdf.CashReceiptPrinter;
+import edu.clevertec.check.repository.impl.ProductRepoImpl;
 import edu.clevertec.check.service.impl.SupermarketServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,6 +38,7 @@ public class CheckRunner {
                 OrderAreNotCreatedException | IOException e) {
             log.error("error", e);
         }
+
 
 
     }
