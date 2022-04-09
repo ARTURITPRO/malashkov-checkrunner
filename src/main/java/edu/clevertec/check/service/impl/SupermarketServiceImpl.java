@@ -6,6 +6,7 @@ import edu.clevertec.check.exception.InvalidCardNumberException;
 import edu.clevertec.check.exception.InvalidCardTypeException;
 import edu.clevertec.check.exception.NoSuchProductException;
 import edu.clevertec.check.exception.OrderAreNotCreatedException;
+import edu.clevertec.check.repository.impl.DiscountCardRepoImpl;
 import edu.clevertec.check.service.ProductService;
 import edu.clevertec.check.service.SupermarketService;
 import edu.clevertec.check.util.FileOutput;
@@ -66,9 +67,13 @@ public class SupermarketServiceImpl implements SupermarketService {
                         orderMap.containsKey(foundProduct) ? orderMap.get(foundProduct) + amountOfProduct
                                 : amountOfProduct);
             } else {
-                if (splittedArgs[0].equalsIgnoreCase("maestrocard")
-                        || splittedArgs[0].equalsIgnoreCase("mastercard")) {
-                    this.card = DiscountCard.valueOf(splittedArgs[0].toUpperCase());
+                if (splittedArgs[0].equalsIgnoreCase("maestrocard")) {
+                    DiscountCardRepoImpl dc = new DiscountCardRepoImpl();
+                    this.card = dc.findById(1);
+                    this.card.setNumber(splittedArgs[1].trim());
+                } else if (splittedArgs[0].equalsIgnoreCase("mastercard")) {
+                    DiscountCardRepoImpl dc = new DiscountCardRepoImpl();
+                    this.card = dc.findById(2);
                     this.card.setNumber(splittedArgs[1].trim());
                 } else throw new InvalidCardTypeException();
             }
@@ -81,7 +86,6 @@ public class SupermarketServiceImpl implements SupermarketService {
         this.addOrder(FileUpLoad.loadStringsFromFile(file));
         return this;
     }
-
 
     //обработка заказа (подсчет цены, учитывание скидок и формирование информации для чека)
     public SupermarketServiceImpl processOrder() throws OrderAreNotCreatedException {

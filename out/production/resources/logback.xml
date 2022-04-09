@@ -12,10 +12,10 @@
     </appender>
 
     <appender name="file" class="ch.qos.logback.core.FileAppender">
-        <file>logback.log</file>//путь к файлу
+        <file>out\\logback.log</file>//путь к файлу
         <append>true</append>//запись в файл (true-без удаления/ false-с удалением старой информации)
         <immediateFlush>true</immediateFlush>//мгновенная запись "разрешена"
-        <encoder>//Определяет способ записи события в базовую OutputStreamAppenderбазу .
+        <encoder>//Определяет способ записи события в базовую OutputStreamAppenderбазу.
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{60} - %msg%n</pattern>
         </encoder>
     </appender>

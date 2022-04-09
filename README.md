@@ -1,7 +1,7 @@
 
 Запуск :
 1.) mvn compile
-2.) mvn exec:java -Dexec.mainClass=CheckRunner -Dexec.args="1-2 2-3 3-5 4-1 5-4 6-3 7-4 8-2 maestrocard-623587456214"
+2.) mvn exec:java -Dexec.mainClass=CheckRunner -Dexec.args="1-2 2-3 3-5 4-1 5-4 6-3 7-4 8-2 maestrocard-333333"
  	или
     mvn exec:java -Dexec.mainClass=CheckRunner -Dexec.args="src\main\resources\data.txt"
 
@@ -21,13 +21,13 @@
 Передача карты в аргументы :
 * Карта может быть двух типов mastercard (с 6% скидкой) или maestrocard (с 3% скидкой),
   в противном случае будет выброшено исключение InvalidCardTypeException
-* Номер карты должен состоять из 12 цифр, в противном случае будет выброшено
+* Номер карты должен состоять из 6 цифр, в противном случае будет выброшено
   исключение InvalidCardNumberException
 * При передаче карты в аргументы, тип карты и её номер разделяет дефис
 
 
 
-** Пример результата с аргументами "1-2 2-3 3-5 4-1 5-4 6-3 7-4 8-2 maestrocard-623587456214"
+** Пример результата с аргументами "1-2 2-3 3-5 4-1 5-4 6-3 7-4 8-2 maestrocard-333333"
 
 
 ****************************************
@@ -55,7 +55,7 @@ QTY   DESCRIPTION       PRICE      TOTAL
 3     Meat              $5.01      $15,03
 2     NUTS              $1.4       $2,8
 ----------------------------------------
-#	  MAESTROCARD 623587456214
+#	  MAESTROCARD 333333
 #	  has been provided
 #	  Included 3% discount
 ----------------------------------------
