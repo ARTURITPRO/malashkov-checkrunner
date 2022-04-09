@@ -1,5 +1,32 @@
 package edu.clevertec.check.util;
 
+import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfReader;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.HorizontalAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.UnitValue;
+import com.itextpdf.layout.properties.VerticalAlignment;
+import edu.clevertec.check.service.impl.SupermarketServiceImpl;
+import lombok.SneakyThrows;
+
+import javax.lang.model.util.Elements;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Objects;
+
 import edu.clevertec.check.service.impl.SupermarketServiceImpl;
 
 import java.io.BufferedWriter;
@@ -37,9 +64,8 @@ public class FileOutput {
         readyReceipt.append(getCurrentTimeAsString()).append("\n");
         readyReceipt.append("----------------------------------------\n");
         readyReceipt.append(String.format("%-5s %-17s %5s %10s\n", "QTY", "DESCRIPTION", "PRICE", "TOTAL"));
-        readyReceipt.append(infoFromOrderSb);
-
-        return readyReceipt.toString();
+         readyReceipt.append(infoFromOrderSb);
+              return readyReceipt.toString();
     }
 
     private static String getCurrentTimeAsString() {
@@ -47,5 +73,33 @@ public class FileOutput {
         DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm:ss");
         return "TIME  " + ZonedDateTime.now().format(formatterTime)
                 + "\t\t   DATE  " + ZonedDateTime.now().format(formatterDate);
+    }
+    @SneakyThrows
+    public static void printReceiptToPdf (SupermarketServiceImpl supermarketServiceImpl, StringBuilder infoFromOrderSb) {
+        // Creating a PdfWriter
+        String dest = "C:/itextExamples/addingParagraph.pdf";
+        PdfWriter writer = new PdfWriter(dest);
+
+        // Creating a PdfDocument
+        PdfDocument pdf = new PdfDocument(writer);
+
+        // Creating a Document
+        Document document = new Document(pdf);
+
+
+        String para1 = "guilui;liliol";
+        String para2 = "The journey commenced with a single tutorial on HTML in 2006 ";
+
+        // Creating Paragraphs
+        Paragraph paragraph1 = new Paragraph(para1);
+        Paragraph paragraph2 = new Paragraph(para2);
+
+        // Adding paragraphs to document
+        document.add(paragraph1);
+        document.add(paragraph2);
+
+        // Closing the document
+        document.close();
+        System.out.println("Paragraph added");
     }
 }

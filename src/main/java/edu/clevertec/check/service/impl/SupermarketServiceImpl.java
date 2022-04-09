@@ -188,6 +188,10 @@ public class SupermarketServiceImpl implements SupermarketService {
         FileOutput.printReceiptToFile(file, this, ReceiptInfoReceivedFromOrder);
     }
 
+    public void printCheckToPdf() {
+        FileOutput.printReceiptToPdf(this, ReceiptInfoReceivedFromOrder);
+    }
+
     @Override
     public String toString() {
         return "SupermarketServiceImpl{" +

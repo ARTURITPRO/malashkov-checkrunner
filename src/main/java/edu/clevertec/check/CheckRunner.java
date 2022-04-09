@@ -12,10 +12,13 @@ import edu.clevertec.check.dto.Fish;
 import edu.clevertec.check.dto.Meat;
 import edu.clevertec.check.dto.Product;
 import edu.clevertec.check.dto.Sweets;
+import edu.clevertec.check.util.CashReceiptPdfFilePrinter;
+import edu.clevertec.check.util.CashReceiptPrinter;
 import edu.clevertec.check.util.SettingsUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 @Slf4j
@@ -29,7 +32,7 @@ public class CheckRunner {
 //        productService.findById(1);
 
         //магазин берет в конструктор ассортимент продуктов
-        SupermarketService dionis17 = new SupermarketServiceImpl("Storage \"Dionis17\" ",
+        SupermarketServiceImpl dionis17 = new SupermarketServiceImpl("Storage \"Dionis17\" ",
                 "+375(29)937-99-92");
 
 
@@ -45,9 +48,9 @@ public class CheckRunner {
                 dionis17.addOrder(args)
                         .processOrder()
                         .printCheckToConsole();
-
-        } catch (NoSuchProductException | InvalidCardTypeException
-                | InvalidCardNumberException | OrderAreNotCreatedException e) {
+            CashReceiptPrinter pdfFilePrinter = new CashReceiptPdfFilePrinter();
+            pdfFilePrinter.print(dionis17);
+        } catch (NoSuchProductException | InvalidCardTypeException | InvalidCardNumberException | OrderAreNotCreatedException | IOException e) {
             e.printStackTrace();
         }
 
