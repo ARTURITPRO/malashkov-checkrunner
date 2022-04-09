@@ -1,4 +1,4 @@
-package edu.clevertec.check.controller;
+package edu.clevertec.check.servlet;
 
 import edu.clevertec.check.exception.InvalidCardNumberException;
 import edu.clevertec.check.exception.InvalidCardTypeException;
@@ -17,12 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet({"/api/pdf"})
 @Slf4j
-
 public class CheckController extends HttpServlet {
 
     private final CashReceiptPrinter pdfFilePrinter = new CashReceiptPdfFilePrinter();
 
-    SupermarketServiceImpl dionis17 = new SupermarketServiceImpl("Storage \"Dionis17\" ",
+    private SupermarketServiceImpl dionis17 = new SupermarketServiceImpl("Storage \"Dionis17\" ",
             "+375(29)937-99-92");
 
     @Override
@@ -47,7 +46,6 @@ public class CheckController extends HttpServlet {
         } catch (Exception e) {
             resp.sendError(400, "Incorrect request: " + e.getMessage());
         }
-
     }
 
 

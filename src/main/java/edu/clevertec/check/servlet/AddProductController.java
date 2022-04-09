@@ -1,4 +1,4 @@
-package edu.clevertec.check.controller;
+package edu.clevertec.check.servlet;
 
 import com.google.gson.Gson;
 import edu.clevertec.check.dto.Product;
