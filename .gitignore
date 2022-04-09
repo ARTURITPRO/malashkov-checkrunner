@@ -3,6 +3,7 @@
 target
 /.gradle/
 /.idea/
-/build/
+build/
+out/
 
 *.log
