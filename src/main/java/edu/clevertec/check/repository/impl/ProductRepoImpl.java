@@ -6,6 +6,7 @@ import edu.clevertec.check.repository.ProductRepo;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.*;
 
+@Repository
 @Slf4j
 public class ProductRepoImpl implements ProductRepo<Integer, Product> {
 
@@ -28,7 +30,7 @@ public class ProductRepoImpl implements ProductRepo<Integer, Product> {
         List<Product> products = new ArrayList<>();
         while (resultSet.next()) {
             Product product = new Product(
-                    resultSet.getObject("id", Integer.class),
+                             resultSet.getObject("id", Integer.class),
                     resultSet.getObject("name", String.class),
                     resultSet.getObject("cost", Double.class),
                     resultSet.getObject("promotional", Boolean.class)

@@ -42,7 +42,7 @@ public class DiscountCardController extends HttpServlet {
             productsJson = new ObjectMapper().writeValueAsString(
                     req.getRequestURI().contains("/cards/")
                             ? cardRepo.findById(Integer.valueOf(requestPath[requestPath.length - 1]))
-                            : cardRepo.findAll()
+                            : cardRepo.findAll(pageSize)
             );
         }
 

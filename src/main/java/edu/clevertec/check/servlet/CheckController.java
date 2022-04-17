@@ -1,11 +1,17 @@
 package edu.clevertec.check.servlet;
 
+import edu.clevertec.check.dto.Product;
 import edu.clevertec.check.exception.InvalidCardNumberException;
 import edu.clevertec.check.exception.InvalidCardTypeException;
 import edu.clevertec.check.exception.NoSuchProductException;
 import edu.clevertec.check.exception.OrderAreNotCreatedException;
 import edu.clevertec.check.pdf.CashReceiptPdfFilePrinter;
 import edu.clevertec.check.pdf.CashReceiptPrinter;
+import edu.clevertec.check.repository.ProductRepo;
+import edu.clevertec.check.repository.impl.ProductRepoImpl;
+import edu.clevertec.check.service.ProductService;
+import edu.clevertec.check.service.SupermarketService;
+import edu.clevertec.check.service.impl.ProductServiceImpl;
 import edu.clevertec.check.service.impl.SupermarketServiceImpl;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -15,14 +21,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet({"/api/pdf"})
+@WebServlet({"/pdf"})
 @Slf4j
 public class CheckController extends HttpServlet {
 
     private final CashReceiptPrinter pdfFilePrinter = new CashReceiptPdfFilePrinter();
-
-    private SupermarketServiceImpl dionis17 = new SupermarketServiceImpl("Storage \"Dionis17\" ",
-            "+375(29)937-99-92");
+    private final ProductRepo<Integer, Product> productRepo = new ProductRepoImpl();
+    private final ProductService<Integer, Product> productService = new ProductServiceImpl(productRepo);
+    private final SupermarketService dionis17 = new SupermarketServiceImpl(productService);
 
     @Override
     @SneakyThrows

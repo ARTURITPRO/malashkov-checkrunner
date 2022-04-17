@@ -3,7 +3,7 @@ package edu.clevertec.check.servlet;
 import com.google.gson.Gson;
 import edu.clevertec.check.dto.Product;
 import edu.clevertec.check.service.ProductService;
-import edu.clevertec.check.service.impl.ProductServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 
 //import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +16,12 @@ import java.io.PrintWriter;
 @WebServlet(name = "AddProductController", value = "/product/add")
 public class AddProductController extends HttpServlet {
 
-    private final ProductService<Integer, Product> productService = new ProductServiceImpl();
+    @Autowired
+    private final ProductService<Integer, Product> productService;
+
+    public AddProductController(ProductService<Integer, Product> productService) {
+        this.productService = productService;
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)  throws IOException {
