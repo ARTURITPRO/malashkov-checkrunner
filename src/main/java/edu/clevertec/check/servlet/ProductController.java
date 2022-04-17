@@ -3,6 +3,8 @@ package edu.clevertec.check.servlet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import edu.clevertec.check.dto.Product;
+import edu.clevertec.check.repository.ProductRepo;
+import edu.clevertec.check.repository.impl.ProductRepoImpl;
 import edu.clevertec.check.service.ProductService;
 import edu.clevertec.check.service.impl.ProductServiceImpl;
 import edu.clevertec.check.util.ReaderRequestBody;
@@ -21,11 +23,13 @@ import java.io.PrintWriter;
 @Slf4j
 public class ProductController extends HttpServlet {
 
-    private final ProductService<Integer, Product> productService = new ProductServiceImpl();
+    private final ProductRepo<Integer, Product> productRepo = new ProductRepoImpl();
+    private final ProductService<Integer, Product> productService = new ProductServiceImpl(productRepo);
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Gson gsonMapper = new Gson();
     private Integer pageSize = 20;
     private Integer size = 1;
+
     @Override
     @SneakyThrows
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {

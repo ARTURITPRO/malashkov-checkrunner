@@ -11,27 +11,31 @@ import edu.clevertec.check.service.ProductService;
 import edu.clevertec.check.service.SupermarketService;
 import edu.clevertec.check.util.FileOutput;
 import edu.clevertec.check.util.FileUpLoad;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.*;
 
+@Service
+@RequiredArgsConstructor
 public class SupermarketServiceImpl implements SupermarketService {
 
-    private final ProductService<Integer, Product> productService = new ProductServiceImpl();
+    private final ProductService<Integer, Product> productService;
 
-    private final String name;
-    private final String phoneNumber;
+    //    public void setTotalCost(double totalCost) {
+//        this.totalCost = totalCost;
+//    }
+
+    private String name = "Storage \"Dionis17\" ";
+    private String phoneNumber ="+375(29)937-99-92";
     private Map<Product, Integer> orderMap;
     private DiscountCard card;
     private StringBuilder ReceiptInfoReceivedFromOrder;
     private double totalCost;
-
-    public SupermarketServiceImpl(String name, String phoneNumber) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        totalCost = 0;
-    }
 
     public Map<Product, Integer> getOrderMap() {
         return orderMap;
