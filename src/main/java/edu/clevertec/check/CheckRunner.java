@@ -7,7 +7,11 @@ import edu.clevertec.check.exception.NoSuchProductException;
 import edu.clevertec.check.exception.OrderAreNotCreatedException;
 import edu.clevertec.check.pdf.CashReceiptPdfFilePrinter;
 import edu.clevertec.check.pdf.CashReceiptPrinter;
+import edu.clevertec.check.repository.ProductRepo;
 import edu.clevertec.check.repository.impl.ProductRepoImpl;
+import edu.clevertec.check.service.ProductService;
+import edu.clevertec.check.service.SupermarketService;
+import edu.clevertec.check.service.impl.ProductServiceImpl;
 import edu.clevertec.check.service.impl.SupermarketServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,8 +24,9 @@ public class CheckRunner {
     public static void main(String[] args) {
 
         //магазин берет в конструктор ассортимент продуктов
-        SupermarketServiceImpl dionis17 = new SupermarketServiceImpl("Storage \"Dionis17\" ",
-                "+375(29)937-99-92");
+        ProductRepo<Integer, Product> productRepo = new ProductRepoImpl();
+        ProductService<Integer, Product> productService = new ProductServiceImpl(productRepo);
+        SupermarketService dionis17 = new SupermarketServiceImpl(productService);
         File file = new File(args[0].trim());
         try {
             if (file.isFile())

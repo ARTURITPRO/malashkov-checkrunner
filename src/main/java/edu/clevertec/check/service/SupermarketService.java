@@ -20,6 +20,8 @@ public interface SupermarketService {
 
     SupermarketService addOrder(String[] args) throws NoSuchProductException, InvalidCardNumberException, InvalidCardTypeException;
 
+    SupermarketService addOrder(String args) throws NoSuchProductException, InvalidCardNumberException, InvalidCardTypeException;
+
     SupermarketService addOrderFromFile(File file) throws NoSuchProductException, InvalidCardNumberException, InvalidCardTypeException;
 
     SupermarketService processOrder() throws OrderAreNotCreatedException;

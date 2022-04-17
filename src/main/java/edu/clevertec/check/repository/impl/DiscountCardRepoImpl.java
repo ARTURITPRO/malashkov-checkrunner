@@ -6,6 +6,7 @@ import edu.clevertec.check.util.ConnectionManager;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 @Slf4j
 public class DiscountCardRepoImpl implements DiscountCardRepo {
 
