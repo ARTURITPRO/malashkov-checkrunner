@@ -1,4 +1,4 @@
-package edu.clevertec.check.repository.impl;
+package edu.clevertec.check.repository.impl2;
 
 import edu.clevertec.check.dto.Product;
 import edu.clevertec.check.spring.service.mapper.ProductRowMapper;
@@ -27,9 +27,14 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-@Repository
+
+
+//@Repository
 @Slf4j
 public class ProductRepoImpl implements ProductRepo<Integer, Product> {
+
+     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+     ProductRowMapper productRowMapper;
 
     @SneakyThrows
     @Override

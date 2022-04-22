@@ -1,4 +1,4 @@
-package edu.clevertec.check.repository.impl;
+package edu.clevertec.check.repository.impl2;
 
 import edu.clevertec.check.dto.DiscountCard;
 import edu.clevertec.check.repository.DiscountCardRepo;
@@ -26,9 +26,12 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-@Repository
+//@Repository
 @Slf4j
 public class DiscountCardRepoImpl implements DiscountCardRepo {
+
+   NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+   DiscountCardRowMapper DiscountCardRowMapper;
 
     @SneakyThrows
     @Override
@@ -124,30 +127,10 @@ public class DiscountCardRepoImpl implements DiscountCardRepo {
     @Override
     @SneakyThrows
     public DiscountCard findById(int id) {
-        Connection connection = ConnectionManager.get();
-        return findById(connection, id);
-    }
-
-    @SneakyThrows
-    private DiscountCard findById(Connection connection, int id) {
-        @Cleanup PreparedStatement preparedStatement = connection.prepareStatement(
-                "SELECT id, discount, number " +
+    String sql = (     "SELECT id, discount, number " +
                         "FROM discountCard " +
                         "WHERE id = ?");
-
-        preparedStatement.setObject(1, id);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        DiscountCard discountCard = null;
-
-        if (resultSet.next()) {
-            discountCard = new DiscountCard(
-                    resultSet.getObject("id", Integer.class),
-                    resultSet.getObject("discount", Integer.class),
-                    resultSet.getObject("number", Integer.class)
-            );
-            log.info("The entity was found in the database: {}", discountCard);
-        }
-        return discountCard;
+        return namedParameterJdbcTemplate.queryForObject(sql, new MapSqlParameterSource("id", id), DiscountCardRowMapper);
     }
 
     @Override
