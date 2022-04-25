@@ -1,10 +1,7 @@
 package edu.clevertec.check.spring.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import edu.clevertec.check.dto.Product;
 import edu.clevertec.check.service.ProductService;
-import edu.clevertec.check.service.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.ApplicationContext;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,10 +19,7 @@ import java.util.Optional;
 public class ProductController {
 
     private final ProductService<Integer, Product> productService;
-    private final ObjectMapper objectMapper;
-    private Gson gsonMapper = new Gson();
     private static final String PAGE_SIZE = "20";
-    private static final String PAGE_NUMBER = "1";
     private final ApplicationContext applicationContext;
 
     @PostConstruct
@@ -46,8 +39,7 @@ public class ProductController {
     @SneakyThrows
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    protected Collection<Product> findAll(@RequestParam(value = "pagesize", defaultValue = PAGE_SIZE) Integer pageSize,
-                                          @RequestParam(value = "pagenubber", defaultValue = PAGE_NUMBER) Integer pageNumber) {
+    protected Collection<Product> findAll(@RequestParam(value = "pageSize", defaultValue = PAGE_SIZE) Integer pageSize) {
         return productService.findAll(pageSize);
     }
 

@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public interface CheckPdfService {
 
-     byte[] getReceiptInPDF(String a) throws InvalidCardNumberException, NoSuchProductException,
+    byte[] getReceiptInPDF(String a) throws InvalidCardNumberException, NoSuchProductException,
             InvalidCardTypeException, OrderAreNotCreatedException, IOException;
 
 }

@@ -7,11 +7,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebMvc  // аннотация разрешает нашему проекту использовать MVC
-@ComponentScan("edu.clevertec.check.spring.controller") // указываем пакет с контроллерами
-public class WebConfig implements WebMvcConfigurer {  // конфигурируем WebMvc
+@EnableWebMvc
+@ComponentScan("edu.clevertec.check.spring.controller")
+public class WebConfig implements WebMvcConfigurer {
 
-    // включаем авто-конфигурацию
+
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();

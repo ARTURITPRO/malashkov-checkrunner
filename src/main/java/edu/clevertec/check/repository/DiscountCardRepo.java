@@ -7,9 +7,12 @@ import java.util.Optional;
 
 public interface DiscountCardRepo {
 
-    Collection<DiscountCard > findAll();
-    Collection<DiscountCard > findAll(Integer pageSize);
-    Collection<DiscountCard > findAll(Integer pageSize, Integer size);
+    Collection<DiscountCard> findAll();
+
+    Collection<DiscountCard> findAll(Integer pageSize);
+
+    Collection<DiscountCard> findAll(Integer pageSize, Integer size);
+
     DiscountCard save(DiscountCard discountCard);
 
     DiscountCard findById(int id);

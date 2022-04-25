@@ -1,7 +1,6 @@
 package edu.clevertec.check.spring.controller;
 
 import edu.clevertec.check.spring.service.CheckPdfService;
-import edu.clevertec.check.spring.service.impl.CheckPdfServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;

@@ -13,7 +13,7 @@ public class DiscountCardRowMapper implements RowMapper<DiscountCard> {
     public DiscountCard mapRow(ResultSet rs, int rowNum) throws SQLException {
         return DiscountCard.builder()
                 .id(rs.getInt("id"))
-                .discount(rs.getInt("discount_percentage"))
+                .discount(rs.getInt("discount"))
                 .number(rs.getInt("number"))
                 .build();
     }

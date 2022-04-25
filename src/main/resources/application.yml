@@ -10,8 +10,15 @@ print.pdf.filename.format: receipt-%d-%s-%d.pdf
 print.txt.filename.format: receipt-%d-%s-%d.txt
 
 #To connect to the database
-db.url: jdbc:postgresql://localhost:5432/product
-db.username: postgres
-db.password: 0147896325aA
-db.driver: org.postgresql.Driver
-db.autorundbsql: true
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/product?useSSL=true&serverTimezone=UTC
+    username: postgres
+    password: 0147896325aA
+    driver-class-name: org.postgresql.Driver
+
+db.autorundbsql: false
+
+server:
+  servlet.context-path: /check
+  port: 9001

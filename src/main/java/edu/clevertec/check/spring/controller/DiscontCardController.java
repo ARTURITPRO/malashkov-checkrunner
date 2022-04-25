@@ -1,7 +1,7 @@
 package edu.clevertec.check.spring.controller;
 
 import edu.clevertec.check.dto.DiscountCard;
-import edu.clevertec.check.repository.impl.DiscountCardRepoImpl;
+import edu.clevertec.check.repository.DiscountCardRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.ApplicationContext;
@@ -16,7 +16,7 @@ import java.util.Collection;
 @RequestMapping("/api/discountCards")
 public class DiscontCardController {
 
-    private final DiscountCardRepoImpl cardRepo = new DiscountCardRepoImpl(); // переделать
+    private final DiscountCardRepo cardRepo;
     private static final String PAGE_SIZE = "20";
     private static final String PAGE_NUMBER = "1";
     private final ApplicationContext applicationContext;
@@ -38,7 +38,7 @@ public class DiscontCardController {
     @SneakyThrows
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    protected Collection <DiscountCard> findAll(@RequestParam(value = "pagesize", required = false, defaultValue = "20") Integer pageSize) {
+    protected Collection<DiscountCard> findAll(@RequestParam(value = "pagesize", required = false, defaultValue = "20") Integer pageSize) {
         return cardRepo.findAll(pageSize);
     }
 
@@ -55,6 +55,7 @@ public class DiscontCardController {
     protected boolean delete(@PathVariable(value = "id") int id) {
         return cardRepo.delete(id);
     }
+
     @SneakyThrows
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
