@@ -1,7 +1,9 @@
 package edu.clevertec.check.dto;
 
 import edu.clevertec.check.exception.InvalidCardNumberException;
+import lombok.Builder;
 
+@Builder
 public class DiscountCard  {
 
 

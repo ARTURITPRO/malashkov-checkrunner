@@ -15,9 +15,13 @@ import com.itextpdf.layout.properties.UnitValue;
 import com.itextpdf.layout.properties.VerticalAlignment;
 
 import edu.clevertec.check.dto.Product;
+import edu.clevertec.check.service.SupermarketService;
 import edu.clevertec.check.service.impl.SupermarketServiceImpl;
 import lombok.Cleanup;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -25,10 +29,11 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.Map;
 
+@Service
 public class CashReceiptPdfFilePrinter implements CashReceiptPrinter {
 
     @Override
-    public byte [] print(SupermarketServiceImpl check) throws IOException {
+    public byte[] print(SupermarketService check) throws IOException {
         String readFilePath = "clevertec.pdf";
         // String readFilePath = "src\\main\\resources\\clevertec.pdf";
         String pathRecordFile = "checkOfSupermarket.pdf";
@@ -79,7 +84,7 @@ public class CashReceiptPdfFilePrinter implements CashReceiptPrinter {
         return table.setTextAlignment(TextAlignment.CENTER);
     }
 
-    private static Table getProductTable(SupermarketServiceImpl check) {
+    private static Table getProductTable(SupermarketService check) {
         Map<Product, Integer> mapProduct = check.getOrderMap();
         Table tableProducts = new Table(UnitValue.createPercentArray(4)).useAllAvailableWidth();
 
@@ -100,7 +105,7 @@ public class CashReceiptPdfFilePrinter implements CashReceiptPrinter {
         return tableProducts.setTextAlignment(TextAlignment.CENTER);
     }
 
-    private static Table getResultTable(SupermarketServiceImpl check) {
+    private static Table getResultTable(SupermarketService check) {
         Table totalPurchase = new Table(UnitValue.createPercentArray(2)).useAllAvailableWidth();
 
         Cell niceDay = new Cell(1, 1).add(new Paragraph("Have a nice day !"));

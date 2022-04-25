@@ -1,4 +1,5 @@
 package edu.clevertec.check.service;
+
 import edu.clevertec.check.dto.Product;
 import edu.clevertec.check.exception.InvalidCardNumberException;
 import edu.clevertec.check.exception.InvalidCardTypeException;
@@ -19,6 +20,8 @@ public interface SupermarketService {
     double getTotalCost();
 
     SupermarketService addOrder(String[] args) throws NoSuchProductException, InvalidCardNumberException, InvalidCardTypeException;
+
+    SupermarketService addOrder(String args) throws NoSuchProductException, InvalidCardNumberException, InvalidCardTypeException;
 
     SupermarketService addOrderFromFile(File file) throws NoSuchProductException, InvalidCardNumberException, InvalidCardTypeException;
 

@@ -1,6 +1,8 @@
 package edu.clevertec.check.dto;
-import java.util.Objects;
+import lombok.Builder;
 
+import java.util.Objects;
+@Builder
 public class Product implements Entity, Comparable<Product> {
     public int id;
     public String name;

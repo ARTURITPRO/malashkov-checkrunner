@@ -6,32 +6,34 @@ import edu.clevertec.check.exception.InvalidCardNumberException;
 import edu.clevertec.check.exception.InvalidCardTypeException;
 import edu.clevertec.check.exception.NoSuchProductException;
 import edu.clevertec.check.exception.OrderAreNotCreatedException;
-import edu.clevertec.check.repository.impl.DiscountCardRepoImpl;
+import edu.clevertec.check.repository.DiscountCardRepo;
 import edu.clevertec.check.service.ProductService;
 import edu.clevertec.check.service.SupermarketService;
 import edu.clevertec.check.util.FileOutput;
 import edu.clevertec.check.util.FileUpLoad;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
+@Service
+@RequiredArgsConstructor
 public class SupermarketServiceImpl implements SupermarketService {
 
-    private final ProductService<Integer, Product> productService = new ProductServiceImpl();
+    private final ProductService<Integer, Product> productService;
+    private final DiscountCardRepo discountCardRepo;
 
-    private final String name;
-    private final String phoneNumber;
+    private String name = "Storage \"Dionis17\" ";
+    private String phoneNumber = "+375(29)937-99-92";
     private Map<Product, Integer> orderMap;
     private DiscountCard card;
     private StringBuilder ReceiptInfoReceivedFromOrder;
     private double totalCost;
-
-    public SupermarketServiceImpl(String name, String phoneNumber) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        totalCost = 0;
-    }
 
     public Map<Product, Integer> getOrderMap() {
         return orderMap;
@@ -69,12 +71,10 @@ public class SupermarketServiceImpl implements SupermarketService {
             } else {
                 if (splittedArgs[0].equalsIgnoreCase("card")) {
                     if (Integer.parseInt(splittedArgs[1]) > 50) {
-                        DiscountCardRepoImpl dc = new DiscountCardRepoImpl();
-                        this.card = dc.findById(Integer.parseInt(splittedArgs[1]));
+                        this.card = discountCardRepo.findById(Integer.parseInt(splittedArgs[1]));
                         this.card.setDiscount(50);
                     } else {
-                        DiscountCardRepoImpl dc = new DiscountCardRepoImpl();
-                        this.card = dc.findById(Integer.parseInt(splittedArgs[1]));
+                        this.card = discountCardRepo.findById(Integer.parseInt(splittedArgs[1]));
                     }
                 } else throw new InvalidCardTypeException();
             }
@@ -103,12 +103,12 @@ public class SupermarketServiceImpl implements SupermarketService {
             } else {
                 if (splittedArgs[0].equalsIgnoreCase("card")) {
                     if (Integer.parseInt(splittedArgs[1]) > 50) {
-                        DiscountCardRepoImpl dc = new DiscountCardRepoImpl();
-                        this.card = dc.findById(Integer.parseInt(splittedArgs[1]));
+
+                        this.card = discountCardRepo.findById(Integer.parseInt(splittedArgs[1]));
                         this.card.setDiscount(50);
                     } else {
-                        DiscountCardRepoImpl dc = new DiscountCardRepoImpl();
-                        this.card = dc.findById(Integer.parseInt(splittedArgs[1]));
+
+                        this.card = discountCardRepo.findById(Integer.parseInt(splittedArgs[1]));
                     }
                 } else throw new InvalidCardTypeException();
             }
